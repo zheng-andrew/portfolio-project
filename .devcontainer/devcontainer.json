@@ -1,0 +1,9 @@
+{
+  "name": "Portfolio project codespace",
+  "forwardPorts": [8000],
+  "portsAttributes": {
+    "8000": {
+      "visibility": "public"
+    }
+  }
+}
