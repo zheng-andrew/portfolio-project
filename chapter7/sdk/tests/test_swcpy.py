@@ -27,6 +27,16 @@ def test_list_leagues():
     # Asset that 5 League objects are returned
     assert len(leagues_response) == 5
 
+def test_get_player_by_id():
+    """Tests get player by id from SDK"""
+    config = SWCConfig(swc_base_url="http://0.0.0.0:8000",backoff=False)
+    client = SWCClient(config)    
+    players_response = client.get_player_by_id(1001)
+    # Assert the endpoint returned a player object
+    assert isinstance(players_response, Player)
+    # Asset that the correct player was returned
+    assert players_response.player_id == 1001
+
 def test_bulk_player_file_parquet(): 
     """Tests bulk player download through SDK - Parquet"""
 

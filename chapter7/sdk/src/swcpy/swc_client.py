@@ -1,7 +1,8 @@
 import httpx
 import swcpy.swc_config as config 
-from .schemas import League, Team, Player, Performance 
+from .schemas import League, Team, Player, Performance, Counts
 from typing import List 
+from datetime import date
 import backoff 
 import logging 
 logger = logging.getLogger(__name__)
@@ -176,7 +177,7 @@ class SWCClient:
         self,
         skip: int = 0,
         limit: int = 100,
-        min_last_changed_date: date = None,
+        minimum_last_changed_date: date = None,
         team_name: str = None,
         league_id: int = None,
     ) -> List[Team]:
@@ -197,7 +198,7 @@ class SWCClient:
             "skip": skip,
             "limit": limit,
             "minimum_last_changed_date": minimum_last_changed_date,
-            "team_name": league_name,
+            "team_name": team_name,
             "league_id": league_id,
         }
 
@@ -208,7 +209,7 @@ class SWCClient:
         self, 
         skip: int = 0,
         limit: int = 100,
-        min_last_changed_date: date = None,
+        minimum_last_changed_date: date = None,
         last_name: str = None,
         first_name: str = None,
     ) -> List[Player]:
@@ -255,7 +256,7 @@ class SWCClient:
         self,
         skip: int = 0,
         limit: int = 100,
-        last_changed_date: date = None,
+        minimum_last_changed_date: date = None,
     ) -> List[Performance]:
         """Returns a List of performances filtered by parameters.
 
@@ -275,7 +276,7 @@ class SWCClient:
             "minimum_last_changed_date": minimum_last_changed_date,
         }
 
-        response = self.call_api(LIST_PERFORMANCES_ENDPOINT, params)
+        response = self.call_api(self.LIST_PERFORMANCES_ENDPOINT, params)
         return [Performance(**performance) for performance in response.json()]
 
     def get_bulk_player_file(self) -> bytes: 
